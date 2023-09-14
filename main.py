@@ -67,6 +67,12 @@ for i, name in enumerate(names):
             ### Yellow lines
             page.setLineWidth(4)
             page.setStrokeColorCMYK(0, 0.29, 1, 0)
+            page.line(padding,               (k+1)*(page_height/5) - 89,
+                      padding + tag_width*2, (k+1)*(page_height/5) - 89)
+
+            ### Blue lines
+            page.setLineWidth(4)
+            page.setStrokeColorCMYK(0.52, 0.23, 0, 0.12)
             page.line(padding,               (k+1)*(page_height/5) - 85,
                       padding + tag_width*2, (k+1)*(page_height/5) - 85)
         
@@ -104,7 +110,7 @@ for i, name in enumerate(names):
     logo_width = 200
     if i % 2 == 0:
         logo_x = padding + (tag_width / 2) - (logo_width / 2)
-        logo_y = 174 - page_height / 10 * (i % 10)
+        logo_y = 170 - page_height / 10 * (i % 10)
     else:
         logo_x = padding + (3 * tag_width / 2) - (logo_width / 2)
     page.drawImage(image = "au-logotyp.jpg",
