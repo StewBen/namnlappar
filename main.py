@@ -8,7 +8,7 @@ Passar standardstorlek för plastfickor (85mm x 54mm).
 Nödvändiga pythonpaket: reportlab, installeras enklast med "pip install reportlab" i terminalen.
 
 Namnlistan ändras i namn.txt, textstorleken anpassas automatiskt för att passa på en rad.
-Rollen kan ändras nedan i koden eller lämnas tom.
+Korresponderande roller kan ändras i roles.txt eller lämnas tom.
 
 Mail:a viktor.stubbfalt@au.se vid frågor!
 Skrivet av Viktor Stubbfält - 2023-09-12
@@ -25,9 +25,6 @@ from reportlab.pdfbase.pdfmetrics import stringWidth
 pdfmetrics.registerFont(TTFont('Exo', 'Fonts/Exo/Exo-Regular.ttf'))
 pdfmetrics.registerFont(TTFont('Exo Bold', 'Fonts/Exo/Exo-Bold.ttf'))
 
-### Set role:
-role = "Deltagare" # Change this to "Handledare" etc. or leave empty
-
 ### Import Names:
 names = []
 with open('names.txt', encoding = 'utf8') as name_file:
@@ -36,16 +33,24 @@ with open('names.txt', encoding = 'utf8') as name_file:
         names.append(line)
         names.append(line) # Two times for folding
 
+### Import Roles:
+roles = []
+with open('roles.txt', encoding = 'utf8') as role_file:
+    lines = role_file.read().splitlines()
+    for line in lines:
+        roles.append(line)
+        roles.append(line) # Two times for folding
+
 ### Set up Page Environment (1pt = 1/72 inch):
 page = canvas.Canvas("namnlappar.pdf")
 page.setFont('Exo Bold', 24)
 page.setStrokeColorRGB(0.9, 0.9, 0.9) 
 page_width = 595.27  # A4 standard
 page_height = 841.89 # A4 standard
-tag_width = 240
-padding = 60
+tag_width = 250
+padding = 50
 
-### Main loop for writing text and logo:
+### Main loop for writing text/logo/lines:
 for i, name in enumerate(names):
     font_size = 24 # Default fontsize
 
@@ -58,31 +63,31 @@ for i, name in enumerate(names):
         ### Horizontal lines:
         for k in range(6):
 
-            ### Gray lines
+            ### Gray lines (for cutting):
             page.setLineWidth(2)
             page.setStrokeColorRGB(0.95, 0.95, 0.95) 
-            page.line(padding,               (k+1)*(page_height/5),
-                      padding + tag_width*2, (k+1)*(page_height/5))
+            page.line(padding,               (k)*(page_height/5),
+                      padding + tag_width*2, (k)*(page_height/5))
             
-            ### Yellow lines
+            ### Yellow lines:
             page.setLineWidth(4)
             page.setStrokeColorCMYK(0, 0.29, 1, 0)
             page.line(padding,               (k+1)*(page_height/5) - 89,
                       padding + tag_width*2, (k+1)*(page_height/5) - 89)
 
-            ### Blue lines
+            ### Blue lines:
             page.setLineWidth(4)
             page.setStrokeColorCMYK(0.52, 0.23, 0, 0.12)
             page.line(padding,               (k+1)*(page_height/5) - 85,
                       padding + tag_width*2, (k+1)*(page_height/5) - 85)
         
-        ### Vertical gray lines:
+        ### Vertical gray lines (for cutting):
         page.setLineWidth(2)
         page.setStrokeColorRGB(0.95, 0.95, 0.95)
         page.line(padding + tag_width*2, 0, padding + tag_width*2, page_height)
         page.line(padding, 0, padding, page_height)
         
-    ### Resize really long names:
+    ### Resize if current name is super long:
     while stringWidth(name, 'Exo Bold', font_size) >= tag_width * 0.9:
         font_size = font_size - 1
     page.setFont('Exo Bold', font_size)
@@ -98,15 +103,15 @@ for i, name in enumerate(names):
 
     ### Writes the role underneath the name:
     page.setFont('Exo Bold', 14)
-    role_width = stringWidth(role, 'Exo Bold', 14)
+    role_width = stringWidth(roles[i], 'Exo Bold', 14)
     if i % 2 == 0:
         role_x = padding + (tag_width / 2) - (role_width / 2)
         role_y = page_height - 67 - (i % 10) * page_height / 10 
     else:
         role_x = padding + (3 * tag_width / 2) - (role_width / 2)
-    page.drawString(role_x, role_y, role)
+    page.drawString(role_x, role_y, roles[i])
     
-    ### Draws the logo underneath the line:
+    ### Draws the logo:
     logo_width = 200
     if i % 2 == 0:
         logo_x = padding + (tag_width / 2) - (logo_width / 2)
@@ -119,5 +124,5 @@ for i, name in enumerate(names):
                    width = logo_width,
                    preserveAspectRatio = True)
 
-### Save PDF file
+### Save file as PDF:
 page.save()

@@ -10,7 +10,7 @@ Storleken på varje ruta är anpassad för att vikas på mitten och därav vara 
 Passar standardstorlek för plastfickor (85mm x 54mm).
 
 Namnlistan ändras i ```names.txt```, textstorleken anpassas automatiskt för att passa på en rad.
-Rollen kan ändras direkt i koden eller lämnas tom.
+Korresponderande roller kan ändras i ```roles.txt``` eller lämnas tom.
 
 ## Support
 Mail:a viktor.stubbfalt@au.se vid frågor.

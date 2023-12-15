@@ -4,4 +4,3 @@ Förnamn Efternamn 3
 Förnamn Efternamn 4
 Förnamn Efternamn 5
 Förnamn Efternamn 6
-Förnamn Efternamn 7
