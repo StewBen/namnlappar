@@ -1,5 +1,5 @@
 # Namnlappskapare för AU-evenemang.
-![screenshot](https://github.com/StoicAurora/namnlappar/assets/13822835/24b3a466-9c7f-4d0d-817c-5db371c4ce6c)
+![screenshot](https://github.com/StoicAurora/namnlappar/assets/13822835/69530ced-51be-4cae-85fa-356da75a5f7b)
 
 ## Användning
 
